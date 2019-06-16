@@ -14,8 +14,10 @@ main = execParser opts >>= B.putStr . S.renderSvg
           (  fullDesc
           <> progDesc "Render the dragon curve to SVG"
           <> header "dragon - the best archipelago-looking fractal around")
-        parser = run <$> option auto (long "iteration" <> short 'i' <> showDefault <> value 5 <> metavar "INT" <> help "which iteration of the curve to render")
-        run = doc 50 . nth
+        parser = run
+          <$> option auto (long "length" <> short 'l' <> showDefault <> value 50 <> metavar "INT" <> help "segment length")
+          <*> option auto (long "iteration" <> short 'i' <> showDefault <> value 5 <> metavar "INT" <> help "which iteration of the curve to render")
+        run l = doc l . nth
 
 data Segment
   = U
