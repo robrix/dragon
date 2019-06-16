@@ -9,13 +9,13 @@ import qualified Text.Blaze.Svg11 as S
 import qualified Text.Blaze.Svg11.Attributes as A
 
 main :: IO ()
-main = execParser opts >>= run
+main = execParser opts >>= B.putStr . S.renderSvg
   where opts = info (parser <**> helper)
           (  fullDesc
           <> progDesc "Render the dragon curve to SVG"
           <> header "dragon - the best archipelago-looking fractal around")
-        parser = option auto (long "iteration" <> short 'i' <> showDefault <> value 5 <> metavar "INT" <> help "which iteration of the curve to render")
-        run = B.putStr . S.renderSvg . doc 50 . nth
+        parser = run <$> option auto (long "iteration" <> short 'i' <> showDefault <> value 5 <> metavar "INT" <> help "which iteration of the curve to render")
+        run = doc 50 . nth
 
 data Segment
   = U
