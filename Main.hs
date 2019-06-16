@@ -2,13 +2,20 @@
 module Main where
 
 import qualified Data.ByteString.Lazy as B
+import           Options.Applicative
 import qualified Text.Blaze.Svg.Renderer.Utf8 as S
 import           Text.Blaze.Svg11 ((!))
 import qualified Text.Blaze.Svg11 as S
 import qualified Text.Blaze.Svg11.Attributes as A
 
 main :: IO ()
-main = B.putStr . S.renderSvg . doc 50 $ nth 5
+main = execParser opts >>= run
+  where opts = info (parser <**> helper)
+          (  fullDesc
+          <> progDesc "Render the dragon curve to SVG"
+          <> header "dragon - the best archipelago-looking fractal around")
+        parser = option auto (long "iteration" <> short 'i' <> showDefault <> value 5 <> metavar "INT" <> help "which iteration of the curve to render")
+        run = B.putStr . S.renderSvg . doc 50 . nth
 
 data Segment
   = U
