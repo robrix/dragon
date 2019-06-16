@@ -45,8 +45,8 @@ renderS l R = S.hr l
 renderS l D = S.vr (-l)
 renderS l L = S.hr (-l)
 
-render :: T Segment -> S.AttributeValue
-render = S.mkPath . (S.m 500 500 >>) . foldl1 (>>) . fmap (renderS 50)
+render :: Int -> T Segment -> S.AttributeValue
+render l = S.mkPath . (S.m (l * 10) (l * 10) >>) . foldl1 (>>) . fmap (renderS l)
 
 doc :: T Segment -> S.Svg
-doc = (S.docTypeSvg ! A.version "1.1") . (S.path ! A.stroke "black" ! A.strokeWidth "1" ! A.fill "none" !) . A.d . render
+doc = (S.docTypeSvg ! A.version "1.1") . (S.path ! A.stroke "black" ! A.strokeWidth "1" ! A.fill "none" !) . A.d . render 50
