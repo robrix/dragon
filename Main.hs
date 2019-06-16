@@ -8,7 +8,7 @@ import qualified Text.Blaze.Svg11 as S
 import qualified Text.Blaze.Svg11.Attributes as A
 
 main :: IO ()
-main = B.putStr . S.renderSvg . doc $ nth 5
+main = B.putStr . S.renderSvg . doc 50 $ nth 5
 
 data Segment
   = U
@@ -48,5 +48,5 @@ renderS l L = S.hr (-l)
 render :: Int -> T Segment -> S.AttributeValue
 render l = S.mkPath . (S.m (l * 10) (l * 10) >>) . foldl1 (>>) . fmap (renderS l)
 
-doc :: T Segment -> S.Svg
-doc = (S.docTypeSvg ! A.version "1.1") . (S.path ! A.stroke "black" ! A.strokeWidth "1" ! A.fill "none" !) . A.d . render 50
+doc :: Int -> T Segment -> S.Svg
+doc l = (S.docTypeSvg ! A.version "1.1") . (S.path ! A.stroke "black" ! A.strokeWidth "1" ! A.fill "none" !) . A.d . render l
